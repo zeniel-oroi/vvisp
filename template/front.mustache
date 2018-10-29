@@ -9,16 +9,21 @@ export default function(abi, web3) {
       at: function(_addr) {
         contract = contractForm.at(_addr);
       },
-      {{#constantFuncs}}
-      {{name}}: function({{#inputs}}_{{name}}, {{/inputs}}callback) {
-        contract.{{name}}({{#inputs}}_{{name}}, {{/inputs}}callback);
+      getAddress: function() {
+        return contract.options.address;
       },
-      {{/constantFuncs}}
-      {{#nonConstantFuncs}}
-      {{name}}: function({{#inputs}}_{{name}}, {{/inputs}}...args) {
-        contract.{{name}}({{#inputs}}_{{name}}, {{/inputs}}...args);
-      },
-      {{/nonConstantFuncs}}
+      methods: {
+        {{#constantFuncs}}
+        {{name}}: function({{#inputs}}_{{name}}, {{/inputs}}callback) {
+          contract.{{name}}({{#inputs}}_{{name}}, {{/inputs}}callback);
+        },
+        {{/constantFuncs}}
+        {{#nonConstantFuncs}}
+        {{name}}: function({{#inputs}}_{{name}}, {{/inputs}}...args) {
+          contract.{{name}}({{#inputs}}_{{name}}, {{/inputs}}...args);
+        },
+        {{/nonConstantFuncs}}
+      }
     }
   }
 };
